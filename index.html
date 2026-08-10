@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syntora AI — AI Systems That Pay For Themselves</title>
+<meta name="description" content="Syntora AI builds custom AI automation systems for local businesses — built for revenue, not just efficiency.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ---- Design tokens ---- */
+    --bg: #0a0a0d;
+    --bg-elevated: #121216;
+    --surface: #17171d;
+    --surface-hover: #1d1d24;
+    --border: #26262f;
+    --border-strong: #34343f;
+
+    --text-primary: #f4f4f6;
+    --text-secondary: #a3a3ae;
+    --text-tertiary: #6b6b76;
+
+    --accent: #7c6cf6;
+    --accent-bright: #9b8dff;
+    --accent-dim: #4b3fa8;
+    --accent-glow: rgba(124, 108, 246, 0.35);
+
+    --gold: #e8b96a;
+
+    --danger: #f3746b;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
+    --shadow-glow: 0 0 0 1px rgba(124,108,246,0.25), 0 0 40px rgba(124,108,246,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background wash */
+  body::before {
+    content: "";
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1200px;
+    height: 900px;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, rgba(124,108,246,0.06) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(20px);
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-bright);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10,10,13,0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .logo-mark::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 3px;
+    background: var(--bg);
+  }
+  .nav-cta {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .nav-cta:hover { border-color: var(--accent); background: var(--surface-hover); }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 13px 26px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 8px 20px rgba(124,108,246,0.35);
+  }
+  .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+  .btn-secondary:hover { border-color: var(--accent); background: var(--surface); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 96px 0 88px;
+    position: relative;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent-bright);
+    background: rgba(124,108,246,0.1);
+    border: 1px solid rgba(124,108,246,0.25);
+    padding: 6px 12px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    box-shadow: 0 0 8px var(--accent-bright);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.3rem, 5.4vw, 3.9rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    max-width: 780px;
+  }
+  .hero h1 .accent-text {
+    background: linear-gradient(100deg, var(--accent-bright) 10%, var(--gold) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    margin-top: 22px;
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 620px;
+    line-height: 1.6;
+  }
+  .hero-sub strong { color: var(--text-primary); font-weight: 600; }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  .hero-video {
+    margin-top: 64px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-video-frame {
+    position: relative;
+    aspect-ratio: 16/9;
+    width: 100%;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(124,108,246,0.15), transparent 60%),
+      linear-gradient(135deg, #131318 0%, #0d0d10 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .play-btn {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border-strong);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .play-btn:hover { transform: scale(1.06); background: var(--accent); border-color: var(--accent); }
+  .play-btn svg { width: 26px; height: 26px; margin-left: 3px; }
+  .video-caption {
+    position: absolute;
+    bottom: 18px;
+    left: 24px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-tertiary);
+  }
+  /* Replace .hero-video-frame contents with a real <iframe src="https://www.youtube.com/embed/VIDEO_ID"> to go live */
+
+  /* ---------- Section shared ---------- */
+  section { position: relative; z-index: 1; }
+  .section-inner { padding: 88px 0; }
+  .section-head {
+    max-width: 620px;
+    margin-bottom: 52px;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .section-head p {
+    margin-top: 14px;
+    color: var(--text-secondary);
+    font-size: 16.5px;
+    line-height: 1.6;
+  }
+
+  /* ---------- Problem section ---------- */
+  .problem-section { background: var(--bg-elevated); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .problem-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 28px 24px;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .problem-card:hover { border-color: var(--danger); transform: translateY(-2px); }
+  .problem-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    background: rgba(243,116,107,0.12);
+    border: 1px solid rgba(243,116,107,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .problem-icon svg { width: 18px; height: 18px; color: var(--danger); }
+  .problem-card h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .problem-card p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ---------- Solution section ---------- */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .benefit-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+  .benefit-row.wide { grid-column: 1 / -1; }
+  .benefit-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background: rgba(124,108,246,0.14);
+    border: 1px solid rgba(124,108,246,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .benefit-check svg { width: 13px; height: 13px; color: var(--accent-bright); }
+  .benefit-row h4 {
+    font-size: 15.5px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+  .benefit-row p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  /* Booking block */
+  .booking {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: stretch;
+    gap: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: linear-gradient(150deg, var(--surface) 0%, var(--bg-elevated) 100%);
+    box-shadow: var(--shadow-glow);
+  }
+  .booking-copy {
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .booking-copy .section-label { margin-bottom: 12px; }
+  .booking-copy h3 {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .booking-copy p {
+    color: var(--text-secondary);
+    font-size: 15.5px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .booking-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .booking-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+  }
+  .booking-meta-item svg { width: 15px; height: 15px; color: var(--accent-bright); flex-shrink: 0; }
+
+  .calendly-placeholder {
+    background: var(--bg);
+    border-left: 1px solid var(--border);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    padding: 24px;
+  }
+  .calendly-inline-widget {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+  }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 8px;
+  }
+  .final-cta h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    max-width: 560px;
+    margin: 0 auto 16px;
+  }
+  .final-cta p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+  .final-cta .btn { padding: 15px 34px; font-size: 16px; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-inner span {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .problem-grid { grid-template-columns: 1fr; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .benefit-row.wide { grid-column: auto; }
+    .booking { grid-template-columns: 1fr; }
+    .calendly-placeholder { border-left: none; border-top: 1px solid var(--border); }
+    .hero { padding: 64px 0 56px; }
+    .section-inner { padding: 64px 0; }
+    .hero-actions .btn { width: 100%; }
+    .hero-actions { flex-direction: column; }
+    .booking-copy { padding: 36px 28px; }
+  }
+  @media (max-width: 480px) {
+    .nav-inner { padding: 14px 20px; }
+    .nav-cta { padding: 8px 14px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true"></span>
+      Syntora AI
+    </div>
+    <a href="#book" class="nav-cta">Book a call</a>
+  </div>
+</nav>
+
+<!-- ============ 1. HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>AI automation for local businesses</span>
+
+    <h1>Custom AI systems built to grow <span class="accent-text">your revenue</span> — not just your to‑do list.</h1>
+
+    <p class="hero-sub">
+      Syntora AI designs, builds, and runs automation systems for local businesses —
+      <strong>tailored to how you actually operate</strong>, not generic chatbots.
+      We handle setup to optimization so every system we build is judged on one thing: the revenue it brings in.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#book" class="btn btn-primary">
+        Book a call
+      </a>
+      <a href="#solution" class="btn btn-secondary">Learn more</a>
+    </div>
+
+    <div class="hero-video reveal">
+      <div class="hero-video-frame">
+        <!-- Replace this div with: <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Syntora AI overview" frameborder="0" allowfullscreen style="width:100%;height:100%;"></iframe> -->
+        <button class="play-btn" aria-label="Play overview video" onclick="alert('Add your YouTube embed link here — see the HTML comment above the video block.')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <span class="video-caption">02:14 — How a Syntora system works</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 2. PROBLEM ============ -->
+<section class="problem-section">
+  <div class="wrap section-inner">
+    <div class="section-head reveal">
+      <span class="section-label">The problem</span>
+      <h2>You didn't start a business to spend your nights on busywork.</h2>
+      <p>If any of this sounds familiar, it's not a "you" problem — it's a systems problem.</p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Leads slip through the cracks</h3>
+        <p>Every hour a lead waits for a reply, they're more likely to book with someone else. Missed calls and slow follow‑up are quietly costing you customers every single week.</p>
+      </div>
+
+      <div class="problem-card reveal">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+        </div>
+        <h3>You're the bottleneck</h3>
+        <p>Scheduling, quotes, reminders, reviews — it all runs through you. The business can't grow past what you can personally keep up with, and that ceiling is getting lower every month.</p>
+      </div>
+
+      <div class="problem-card reveal">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>You've tried "automation" before</h3>
+        <p>A generic chatbot or a $19 template that didn't fit how your business actually runs — so it sat there unused. You need a system built around your workflow, not the other way around.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. SOLUTION ============ -->
+<section id="solution">
+  <div class="wrap section-inner">
+    <div class="section-head reveal">
+      <span class="section-label">The solution</span>
+      <h2>One AI system, built around your business, judged on revenue.</h2>
+      <p>Here's what you get when Syntora AI builds your system.</p>
+    </div>
+
+    <div class="benefits-grid">
+      <div class="benefit-row reveal">
+        <div class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div>
+          <h4>Built for your business, not a template</h4>
+          <p>Every system is designed around how you actually operate — not a generic chatbot dropped onto your website.</p>
+        </div>
+      </div>
+
+      <div class="benefit-row reveal">
+        <div class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div>
+          <h4>Measured on revenue, not activity</h4>
+          <p>We don't call it a win because a workflow runs. We call it a win when it books, converts, or retains a customer.</p>
+        </div>
+      </div>
+
+      <div class="benefit-row reveal">
+        <div class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div>
+          <h4>End‑to‑end, not a handoff</h4>
+          <p>We handle setup, integration, and ongoing optimization — you're never left with a system nobody maintains.</p>
+        </div>
+      </div>
+
+      <div class="benefit-row reveal">
+        <div class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div>
+          <h4>No more missed leads</h4>
+          <p>Every call, form, and message gets a fast, consistent response — day or night — before a competitor gets there first.</p>
+        </div>
+      </div>
+
+      <div class="benefit-row wide reveal">
+        <div class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div>
+          <h4>Works with what you already run</h4>
+          <p>Syntora AI plugs into the tools your business already uses — no rip‑and‑replace, no retraining your whole team.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking block -->
+    <div id="book" class="booking reveal">
+      <div class="booking-copy">
+        <span class="section-label">Book a call</span>
+        <h3>See what a Syntora system would look like for your business.</h3>
+        <p>A 20‑minute call — no pitch deck, just a look at where AI automation would actually move revenue for you.</p>
+        <div class="booking-meta">
+          <div class="booking-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            20 minutes
+          </div>
+          <div class="booking-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Online — global
+          </div>
+        </div>
+      </div>
+      <div class="calendly-placeholder">
+        <!-- Calendly inline widget begin -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/aqibkhalido53" style="min-width:320px;width:100%;height:700px;"></div>
+        <!-- Calendly inline widget end -->
+      </div>
+    </div>
+
+    <div class="final-cta reveal">
+      <h3>Stop losing revenue to busywork. Let's build the system.</h3>
+      <p>Book your free call — see exactly where automation pays for itself.</p>
+      <a href="#book" class="btn btn-primary" onclick="document.querySelector('#book').scrollIntoView({behavior:'smooth'})">Book a call</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="logo" style="font-size:15px;">
+      <span class="logo-mark" aria-hidden="true"></span>
+      Syntora AI
+    </div>
+    <span>&copy; 2026 Syntora AI. Online / Global.</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll-reveal for elements marked .reveal
+  (function () {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      items.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+
+<!-- Calendly widget script -->
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+</body>
+</html>
