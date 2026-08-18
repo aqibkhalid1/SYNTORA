@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "syntora",
+  "main": ".open-next/worker.js",
+  // Keep this at or after today's date when you redeploy — Cloudflare
+  // requires nodejs_compat + a recent compatibility_date for the OpenNext
+  // adapter to work correctly (process.env population, Node API polyfills).
+  "compatibility_date": "2026-08-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}
