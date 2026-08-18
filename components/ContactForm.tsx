@@ -5,6 +5,7 @@ import Script from "next/script";
 import Reveal from "./Reveal";
 
 const CALENDLY_URL = "https://calendly.com/aqibkhalido53/30min";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xppaolwa";
 
 const budgets = ["Under $1,000", "$1,000–$2,500", "$2,500–$5,000", "$5,000+"];
 
@@ -14,11 +15,31 @@ const inputClasses =
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
 
-  // PLACEHOLDER: wire this up to your form handler / CRM (e.g. POST to an
-  // API route, or a service like Formspree / HubSpot). See README.
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const [error, setError] = useState(false);
+
+  // POSTs the form data straight to Formspree, which forwards it to the
+  // inbox registered on that Formspree form. Delivery is silent — no
+  // dependency on the visitor having an email client configured.
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setError(false);
+    const form = e.currentTarget;
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        form.reset();
+      } else {
+        setError(true);
+      }
+    } catch {
+      setError(true);
+    }
   }
 
   return (
@@ -90,6 +111,13 @@ export default function ContactForm() {
                 >
                   Start Your Project
                 </button>
+
+                {error && (
+                  <p className="text-sm text-red-400">
+                    Something went wrong sending that — please try again, or
+                    email us directly.
+                  </p>
+                )}
               </form>
             )}
           </Reveal>

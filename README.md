@@ -40,7 +40,7 @@ Then open http://localhost:3000. `npm run build` produces a production build.
 | Property visuals | `components/PropertyFeature.tsx` | The three gradient blocks in the grid |
 | Case study numbers | `components/CaseStudy.tsx` | The `stats` array — **only replace with verified client results**, never invented numbers |
 | Calendly booking | `components/ContactForm.tsx` | Already wired to `https://calendly.com/aqibkhalido53/30min` via `CALENDLY_URL` — change that constant if the link changes |
-| Form submission | `components/ContactForm.tsx` | `handleSubmit` — currently just shows a success state client-side; wire to an API route, Formspree, HubSpot, etc. |
+| Form submission | `components/ContactForm.tsx` | Already wired to Formspree (`FORMSPREE_ENDPOINT`, currently `https://formspree.io/f/xppaolwa`) — submissions POST there and Formspree emails them to whatever address that Formspree form is registered to. Change the constant if you ever create a different Formspree form. |
 | OG image | `app/layout.tsx` (`openGraph.images`) | `/og-image.jpg` — add a real 1200×630 image to `public/` |
 | Social links | `components/Footer.tsx` | `socials` array `href` values |
 
