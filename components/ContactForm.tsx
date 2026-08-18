@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, FormEvent } from "react";
+import Script from "next/script";
 import Reveal from "./Reveal";
+
+const CALENDLY_URL = "https://calendly.com/aqibkhalido53/30min";
 
 const budgets = ["Under $1,000", "$1,000–$2,500", "$2,500–$5,000", "$5,000+"];
 
@@ -32,12 +35,15 @@ export default function ContactForm() {
               within one business day.
             </p>
 
-            {/* PLACEHOLDER: embed Calendly here, e.g.
-                <div className="calendly-inline-widget" data-url="https://calendly.com/your-handle/creative-call" style={{minWidth: '320px', height: '650px'}} />
-                and load the Calendly script in app/layout.tsx or via next/script. */}
-            <div className="mt-10 border border-line p-6 text-sm text-faint">
-              Calendly embed placeholder — booking calendar goes here.
-            </div>
+            <Script
+              src="https://assets.calendly.com/assets/external/widget.js"
+              strategy="lazyOnload"
+            />
+            <div
+              className="calendly-inline-widget mt-10 border border-line"
+              data-url={`${CALENDLY_URL}?background_color=0a0a09&text_color=f5f3ef&primary_color=c9a15c`}
+              style={{ minWidth: "320px", height: "650px" }}
+            />
           </Reveal>
         </div>
 

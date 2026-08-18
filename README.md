@@ -39,7 +39,7 @@ Then open http://localhost:3000. `npm run build` produces a production build.
 | Portfolio thumbnails | `components/Portfolio.tsx` + `data/portfolio.ts` | Each project's `thumbnail` path — swap the gradient `<div>` for `next/image` or a `<video>` using that path |
 | Property visuals | `components/PropertyFeature.tsx` | The three gradient blocks in the grid |
 | Case study numbers | `components/CaseStudy.tsx` | The `stats` array — **only replace with verified client results**, never invented numbers |
-| Calendly booking | `components/ContactForm.tsx` | The placeholder `<div>` — paste your Calendly inline embed and load their script |
+| Calendly booking | `components/ContactForm.tsx` | Already wired to `https://calendly.com/aqibkhalido53/30min` via `CALENDLY_URL` — change that constant if the link changes |
 | Form submission | `components/ContactForm.tsx` | `handleSubmit` — currently just shows a success state client-side; wire to an API route, Formspree, HubSpot, etc. |
 | OG image | `app/layout.tsx` (`openGraph.images`) | `/og-image.jpg` — add a real 1200×630 image to `public/` |
 | Social links | `components/Footer.tsx` | `socials` array `href` values |
